@@ -9,7 +9,8 @@ from os.path import abspath, basename, dirname, join, normpath
 from sys import path
 import string
 
-# third party
+# util
+
 
 ########## TEST CONFIGURATION
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
@@ -42,6 +43,12 @@ SITE_NAME = basename(DJANGO_ROOT)
 # name in our dotted import paths:
 path.append(DJANGO_ROOT)
 ########## END PATH CONFIGURATION
+
+
+########## PASSWORD CONFIGURATION
+ACCESS_ROOT = '/.djaccess/'
+DB_ACCESS = 'db.json'
+########## END PASSWORD CONFIGURATION
 
 
 ########## DEBUG CONFIGURATION
