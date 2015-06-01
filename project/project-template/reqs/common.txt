@@ -27,6 +27,3 @@ django-compressor
 
 # LESS and SASS
 # https://github.com/andreyfedoseev/django-static-precompiler
-
-# Debug toolbar
-django-debug-toolbar
