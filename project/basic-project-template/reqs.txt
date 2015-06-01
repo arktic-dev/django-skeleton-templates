@@ -9,9 +9,8 @@ pandas
 # Common Django reusable apps
 Sphinx
 
-# Mysql
---allow-external mysql-connector-python
-mysql-connector-python
+# Postgres
+psycopg2
 
 # Tasks
 amqp
@@ -37,4 +36,3 @@ six
 
 # Debug toolbar
 django-debug-toolbar
-sqlparse

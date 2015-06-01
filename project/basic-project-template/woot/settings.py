@@ -4,7 +4,8 @@
 
 # util
 from datetime import timedelta
-from os.path import abspath, basename, dirname, join, normpath
+from os import mkdir
+from os.path import abspath, basename, dirname, join, normpath, exists
 from sys import path
 import string
 
@@ -319,13 +320,17 @@ FILE_UPLOAD_HANDLERS = (
 
 
 ########## DATABASE CONFIGURATION
-DATABASE_USER = environ.get('DB_USER')
-DATABASE_PWD = environ.get('DB_PWD')
+# load database details from database config file
+if os.path.exists(os.path.join(ACCESS_ROOT, DB_ACCESS)):
+  with open(os.path.join(ACCESS_ROOT, DB_ACCESS)) as db_json:
+else:
+  if os.path.exists(ACCESS_ROOT):
+    
 
-# mysql: https://github.com/PyMySQL/mysqlclient-python
+
 DATABASES = {
   'default': {
-    'ENGINE': 'mysql.connector.django', # Add 'postgresql_psycopg2' for PG django.db.backends.mysql
+    'ENGINE': 'django.db.backends.postgresql_psycopg2',
     'NAME': '',
     'USER': '',
     'PASSWORD': '',
