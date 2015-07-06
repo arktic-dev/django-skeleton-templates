@@ -1,16 +1,17 @@
-# {{project_name}}.settings.common
+# rowbot.settings.common
 '''Common settings and globals.'''
 
 # django
 
 # util
 from datetime import timedelta
+import os
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
+import json
 import string
 
 # util
-
 
 ########## TEST CONFIGURATION
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
@@ -29,6 +30,12 @@ ALLOWED_HOSTS = (
 ########## END ALLOWED HOSTS CONFIGURATION
 
 
+########## PASSWORD CONFIGURATION
+ACCESS_ROOT = '/.djaccess/'
+DB_ACCESS = 'db.json'
+########## END PASSWORD CONFIGURATION
+
+
 ########## PATH CONFIGURATION
 # Absolute filesystem path to the Django project directory:
 DJANGO_ROOT = dirname(dirname(abspath(__file__)))
@@ -36,19 +43,24 @@ DJANGO_ROOT = dirname(dirname(abspath(__file__)))
 # Absolute filesystem path to the top-level project folder:
 SITE_ROOT = dirname(DJANGO_ROOT)
 
+# Code root
+CODE_ROOT = dirname(dirname(SITE_ROOT))
+
 # Site name:
-SITE_NAME = basename(DJANGO_ROOT)
+SITE_NAME = basename(dirname(DJANGO_ROOT))
 
 # Add our project to our pythonpath, this way we don't need to type our project
 # name in our dotted import paths:
 path.append(DJANGO_ROOT)
+
+def get_access():
+  path = os.path.join(CODE_ROOT, '.access/{}.json'.format(SITE_NAME))
+  data = {}
+  with open(path) as access:
+    data = json.load(access)
+
+  return data
 ########## END PATH CONFIGURATION
-
-
-########## PASSWORD CONFIGURATION
-ACCESS_ROOT = '/.djaccess/'
-DB_ACCESS = 'db.json'
-########## END PASSWORD CONFIGURATION
 
 
 ########## DEBUG CONFIGURATION
@@ -123,7 +135,7 @@ STATICFILES_FINDERS = (
 
 ########## SECRET CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-SECRET_KEY = '{{ secret_key }}'
+SECRET_KEY = '#za#m48_9in&i!9rodpp)r6$4_)_94l0sij7+06&mw6t*9f1t9'
 ########## END SECRET CONFIGURATION
 
 
@@ -183,7 +195,7 @@ MIDDLEWARE_CLASSES = (
 
 ########## URL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
-ROOT_URLCONF = '%s.urls' % SITE_NAME
+ROOT_URLCONF = 'woot.urls'
 ########## END URL CONFIGURATION
 
 
@@ -217,7 +229,7 @@ THIRD_PARTY_APPS = (
 )
 
 LOCAL_APPS = (
-
+  'apps.users',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

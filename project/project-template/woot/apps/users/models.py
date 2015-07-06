@@ -18,10 +18,11 @@ class UserManager(BaseUserManager):
     birth and password.
     """
     if not email:
-        raise ValueError('Users must have an email address')
+      raise ValueError('Users must have an email address')
 
-    user = self.model(username,
-        email=self.normalize_email(email),
+    user = self.model(
+      username=username,
+      email=self.normalize_email(email),
     )
 
     user.set_password(password)
@@ -42,14 +43,14 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
   # properties
-  username = models.CharField(max_length=255)
-  email = models.EmailField(verbose_name='email address',max_length=255,unique=True)
+  username = models.CharField(max_length=255, unique=True)
+  email = models.EmailField(verbose_name='email address',max_length=255)
   is_active = models.BooleanField(default=True)
   is_admin = models.BooleanField(default=False)
   objects = UserManager()
 
   USERNAME_FIELD = 'username'
-  REQUIRED_FIELDS = ['username']
+  REQUIRED_FIELDS = ['email']
 
   # methods
   def get_full_name(self):
