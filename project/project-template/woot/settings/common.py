@@ -31,8 +31,8 @@ ALLOWED_HOSTS = (
 
 
 ########## PASSWORD CONFIGURATION
-ACCESS_ROOT = '/.djaccess/'
-DB_ACCESS = 'db.json'
+ACCESS_ROOT = join(expanduser('~'),'.djaccess')
+DB_ACCESS = 'arktic_db.json'
 ########## END PASSWORD CONFIGURATION
 
 

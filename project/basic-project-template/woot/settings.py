@@ -5,9 +5,10 @@
 # util
 from datetime import timedelta
 from os import mkdir
-from os.path import abspath, basename, dirname, join, normpath, exists
+from os.path import abspath, basename, dirname, join, normpath, exists, expanduser
 from sys import path
 import string
+import json
 
 # util
 
@@ -46,8 +47,8 @@ path.append(DJANGO_ROOT)
 
 
 ########## PASSWORD CONFIGURATION
-ACCESS_ROOT = '/.djaccess/'
-DB_ACCESS = 'db.json'
+ACCESS_ROOT = join(expanduser('~'),'.djaccess')
+DB_ACCESS = 'arktic_db.json'
 ########## END PASSWORD CONFIGURATION
 
 
@@ -322,20 +323,17 @@ FILE_UPLOAD_HANDLERS = (
 ########## DATABASE CONFIGURATION
 # load database details from database config file
 if os.path.exists(os.path.join(ACCESS_ROOT, DB_ACCESS)):
-  with open(os.path.join(ACCESS_ROOT, DB_ACCESS)) as db_json:
-else:
-  if os.path.exists(ACCESS_ROOT):
-    
-
+  with open(os.path.join(ACCESS_ROOT, DB_ACCESS), 'r') as db_json:
+    db_data = json.loads(db_json)
 
 DATABASES = {
   'default': {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': '',
-    'USER': '',
-    'PASSWORD': '',
-    'HOST': '', # Set to empty string for localhost.
-    'PORT': '', # Set to empty string for default.
+    'ENGINE': db_data['backend'],
+    'NAME': db_data['name'],
+    'USER': db_data['user'],
+    'PASSWORD': db_data['pwd'],
+    'HOST': db_data['host'], # Set to empty string for localhost.
+    'PORT': db_data['port'], # Set to empty string for default.
   }
 }
 ########## END DATABASE CONFIGURATION

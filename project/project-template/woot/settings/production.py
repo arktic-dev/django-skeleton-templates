@@ -17,18 +17,19 @@ TEMPLATE_DEBUG = DEBUG
 
 
 ########## DATABASE CONFIGURATION
-DATABASE_USER = environ.get('DB_USER')
-DATABASE_PWD = environ.get('DB_PWD')
+# load database details from database config file
+if os.path.exists(os.path.join(ACCESS_ROOT, DB_ACCESS)):
+  with open(os.path.join(ACCESS_ROOT, DB_ACCESS), 'r') as db_json:
+    db_data = json.loads(db_json)
 
-# mysql: https://github.com/PyMySQL/mysqlclient-python
 DATABASES = {
   'default': {
-    'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2' for PG
-    'NAME': '',
-    'USER': '',
-    'PASSWORD': '',
-    'HOST': '', # Set to empty string for localhost.
-    'PORT': '', # Set to empty string for default.
+    'ENGINE': db_data['backend'],
+    'NAME': db_data['name'],
+    'USER': db_data['user'],
+    'PASSWORD': db_data['pwd'],
+    'HOST': db_data['host'], # Set to empty string for localhost.
+    'PORT': db_data['port'], # Set to empty string for default.
   }
 }
 ########## END DATABASE CONFIGURATION
